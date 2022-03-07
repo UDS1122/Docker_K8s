@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-webapp
+spec:
+  #pod and service 1-1 mapping for other service or for external usage
+  selector:
+    app: webapp
+
+  ports:
+    - name: http
+      port: 80
+      nodePort: 30080
+
+  type: NodePort
+    # NodePort : Expose the service through node port and hence nodePort is exposed under ports
+    # ClusterIP : Then this service will be accessed only inside the cluster and not outside
+    # LoadBalancer...can not really be used locally
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-queue
+spec:
+  #pod and service 1-1 mapping for other service or for external usage
+  selector:
+    app: queue
+    release: "1"
+
+  ports:
+    - name: http
+      port: 8161
+      nodePort: 30010
+
+  type: NodePort
